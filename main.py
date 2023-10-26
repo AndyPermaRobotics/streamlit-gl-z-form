@@ -68,6 +68,7 @@ Die genannte Ausnahme von der Genehmigungspflicht gilt allerdings nicht für Dau
 rückumgewandelt wurde und nach diesen Vorschriften als Dauergrünland
 gilt oder
 - aufgrund einer EU-Förderung im Rahmen der Förderperiode bis 2022 (Verordnung (EU) Nr. 1305/2013) aus Ackerland entstanden ist.
+
 Nicht der Genehmigung bedarf eine Umwandlung von maximal 500 Quadratmetern
 Dauergrünland je Antragsteller innerhalb einer Region pro Jahr (Bagatellregelung).
 Diese Bagatellregelung kommt allerdings nur zur Anwendung, solange der Dauergrünlandanteil in der betreffenden Region um nicht mehr als 4 Prozent abgenommen
