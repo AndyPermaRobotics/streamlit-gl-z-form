@@ -84,6 +84,8 @@ und die zuständige Behörde dies im Bundesanzeiger bekannt gemacht hat```
 
 Hier sind meine Antworten für den Fragebogen:
 
+Beginne deine Antwort mit JA, wenn ich förderberechtigt bin.
+
     """
 
     for nummer, antwort in answers.items():
@@ -96,18 +98,27 @@ Hier sind meine Antworten für den Fragebogen:
     with st.spinner("Warte auf Ergebnis der KI. Dies kann einige Minuten dauern..."):
         # get the result from the GPT-3 API
 
-        lottie_url = "https://lottie.host/0d7d01d8-6979-4ea7-a9a1-60403b616093/PUGJ85OnDa.json"  # URL der Konfetti-Animation
-        lottie_animation = load_lottieurl(lottie_url)
+        confetti_lottie_url = "https://lottie.host/0d7d01d8-6979-4ea7-a9a1-60403b616093/PUGJ85OnDa.json"  # URL der Konfetti-Animation
+        sad_lottie_url = (
+            "https://lottie.host/bacfae90-69c3-47f2-8aa7-2d9025aba551/cu3n7q3ON0.json"
+        )
 
-        left_co, cent_co, last_co = st.columns(3)
-        with cent_co:
-            st_lottie(lottie_animation, height=300, width=300)
+        confetti_lottie_animation = load_lottieurl(confetti_lottie_url)
+        sad_lottie_animation = load_lottieurl(sad_lottie_url)
 
-        # DEBUG
-        # result = get_completion(prompt)
+        result = get_completion(prompt)
 
-        # # show reesult in the streamlit app
-        # st.write("Dein Ergebnis:", result)
+        # show reesult in the streamlit app
+        st.write("Dein Ergebnis:", result)
+
+        if result.startswith("JA"):
+            left_co, cent_co, last_co = st.columns(3)
+            with cent_co:
+                st_lottie(confetti_lottie_animation, height=300, width=300)
+        else:
+            left_co, cent_co, last_co = st.columns(3)
+            with cent_co:
+                st_lottie(sad_lottie_animation, height=300, width=300)
 
 
 def main():
