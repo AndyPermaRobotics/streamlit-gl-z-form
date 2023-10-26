@@ -18,9 +18,9 @@ questions = {
 
 # Funktion, um die Benutzerantworten zu speichern
 def save_responses(answers):
-    prompt = """Du sollst die folgenden Antworten eines Nutzers auswerten und bestimmen, ob der Nutzer förderungsberichtigt ist.
+    prompt = """Du sollst meine Antworten für einen Fragebogen auswerten und bestimmen, ob ich förderungsberichtigt bin. Falls ich es nicht bin, sollst du mir das kurz begründen.
 
-Die Grundlage hierfür ist folgender Text:
+Die Grundlage für die Bewertung ist folgender Text:
 ```Ab dem Jahr 2023 werden wesentliche Verpflichtungen aus dem Greening der Jahre
 2015 bis 2022 zum Erhalt des Dauergrünlandes bei der Konditionalität fortgeführt.
 8
@@ -77,21 +77,24 @@ Dauergrünland je Antragsteller innerhalb einer Region pro Jahr (Bagatellregelun
 Diese Bagatellregelung kommt allerdings nur zur Anwendung, solange der Dauergrünlandanteil in der betreffenden Region um nicht mehr als 4 Prozent abgenommen
 und die zuständige Behörde dies im Bundesanzeiger bekannt gemacht hat```
 
-Hier die Antworten des Nutzers:
+Hier sind meine Antworten für den Fragebogen:
 
     """
 
     for nummer, antwort in answers.items():
         prompt += f"* Frage '{questions[nummer]}': {antwort}\n"
 
-    st.write("Prompt:", prompt)
+    # st.write("Prompt:", prompt)
+    # print(prompt)
 
-    print(prompt)
+    # show a loading indicator
+    with st.spinner("Warte auf Ergebnis..."):
+        # get the result from the GPT-3 API
 
-    result = get_completion(prompt)
+        result = get_completion(prompt)
 
-    # show reesult in the streamlit app
-    st.write("Dein Ergebnis:", result)
+        # show reesult in the streamlit app
+        st.write("Dein Ergebnis:", result)
 
 
 def main():
