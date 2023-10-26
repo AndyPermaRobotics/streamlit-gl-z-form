@@ -13,6 +13,7 @@ def save_responses(antworten):
     answer = get_completion(prompt)
 
     # show answer in the streamlit app
+    st.write("Dein Ergebnis:", answer)
 
 
 def main():
