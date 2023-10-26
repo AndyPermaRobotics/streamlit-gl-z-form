@@ -91,7 +91,7 @@ Hier sind meine Antworten für den Fragebogen:
     # print(prompt)
 
     # show a loading indicator
-    with st.spinner("Warte auf Ergebnis...\nDies kann einige Minuten Dauern."):
+    with st.spinner("Warte auf Ergebnis der KI...\nDies kann einige Minuten dauern."):
         # get the result from the GPT-3 API
 
         result = get_completion(prompt)
