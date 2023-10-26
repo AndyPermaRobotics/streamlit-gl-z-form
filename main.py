@@ -18,7 +18,9 @@ questions = {
 
 # Funktion, um die Benutzerantworten zu speichern
 def save_responses(answers):
-    prompt = """Du sollst meine Antworten für einen Fragebogen auswerten und bestimmen, ob ich förderungsberichtigt bin. Falls ich es nicht bin, sollst du mir das kurz begründen.
+    prompt = f"""Du sollst meine Antworten für einen Fragebogen auswerten und bestimmen, ob ich förderungsberichtigt bin. 
+Falls ich nicht förderungsberichtigt bin, gebe mir eine Begründung in Stichpunkten.
+Beginne jeden Stichpunkt mit der Nummer der Frage, auf die du dich beziehst z.B. (1), (2).
 
 Die Grundlage für die Bewertung ist folgender Text:
 ```Ab dem Jahr 2023 werden wesentliche Verpflichtungen aus dem Greening der Jahre
@@ -82,7 +84,7 @@ Hier sind meine Antworten für den Fragebogen:
     """
 
     for nummer, antwort in answers.items():
-        prompt += f"* Frage '{questions[nummer]}': {antwort}\n"
+        prompt += f"{nummer}. Frage '{questions[nummer]}': {antwort}\n"
 
     # st.write("Prompt:", prompt)
     # print(prompt)
