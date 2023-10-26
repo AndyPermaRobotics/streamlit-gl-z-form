@@ -17,17 +17,7 @@ questions = {
     10: "Haben Sie Dauergrünland ohne Genehmigung umgewandelt, das ab dem 1. Januar 2021 neu entstanden ist?",
 }
 
-
-# Funktion, um die Benutzerantworten zu speichern
-def save_responses(answers):
-    prompt = f"""Du sollst meine Antworten für einen Fragebogen auswerten und bestimmen, ob ich förderungsberichtigt bin. 
-Falls ich nicht förderungsberichtigt bin, gebe mir eine Begründung in Stichpunkten.
-Bitte gebe NUR dein Ergebnis und - falls ich nicht förderberechtigt bin - die Begründung zurück und keinen weiteren Text. Z.B.: So:
-"Du bist leider nicht förderungsberechtigt, weil:
-* (1) Deine Antwort auf Frage 1 war Nein, was bedeutet dass <Begründung zu Frage 1>"
-
-Die Grundlage für die Bewertung ist folgender Text:
-```Ab dem Jahr 2023 werden wesentliche Verpflichtungen aus dem Greening der Jahre
+legal_text = """Ab dem Jahr 2023 werden wesentliche Verpflichtungen aus dem Greening der Jahre
 2015 bis 2022 zum Erhalt des Dauergrünlandes bei der Konditionalität fortgeführt.
 8
 Umwandlung von Dauergrünland grundsätzlich nur mit Genehmigung
@@ -81,7 +71,19 @@ gilt oder
 Nicht der Genehmigung bedarf eine Umwandlung von maximal 500 Quadratmetern
 Dauergrünland je Antragsteller innerhalb einer Region pro Jahr (Bagatellregelung).
 Diese Bagatellregelung kommt allerdings nur zur Anwendung, solange der Dauergrünlandanteil in der betreffenden Region um nicht mehr als 4 Prozent abgenommen
-und die zuständige Behörde dies im Bundesanzeiger bekannt gemacht hat```
+und die zuständige Behörde dies im Bundesanzeiger bekannt gemacht hat"""
+
+
+# Funktion, um die Benutzerantworten zu speichern
+def save_responses(answers):
+    prompt = f"""Du sollst meine Antworten für einen Fragebogen auswerten und bestimmen, ob ich förderungsberichtigt bin. 
+Falls ich nicht förderungsberichtigt bin, gebe mir eine Begründung in Stichpunkten.
+Bitte gebe NUR dein Ergebnis und - falls ich nicht förderberechtigt bin - die Begründung zurück und keinen weiteren Text. Z.B.: So:
+"Du bist leider nicht förderungsberechtigt, weil:
+* (1) Deine Antwort auf Frage 1 war Nein, was bedeutet dass <Begründung zu Frage 1>"
+
+Die Grundlage für die Bewertung ist folgender Text:
+```{legal_text}```
 
 Hier sind meine Antworten für den Fragebogen:
 
@@ -96,12 +98,15 @@ Beginne deine Antwort mit JA, wenn ich förderberechtigt bin.
     # print(prompt)
 
     # show a loading indicator
-    with st.spinner("Warte auf Ergebnis der KI. Dies kann einige Minuten dauern..."):
+    with st.spinner(
+        "Warte auf das Ergebnis der KI. Dies kann einige Minuten dauern..."
+    ):
         # get the result from the GPT-3 API
 
         confetti_lottie_url = "https://lottie.host/0d7d01d8-6979-4ea7-a9a1-60403b616093/PUGJ85OnDa.json"  # URL der Konfetti-Animation
         sad_lottie_url = (
-            "https://lottie.host/bacfae90-69c3-47f2-8aa7-2d9025aba551/cu3n7q3ON0.json"
+            "https://lottie.host/ad7d1a9a-8dda-4b3a-967f-6c9e2e4df959/G5N0Q1Ni6p.json"
+            # "https://lottie.host/bacfae90-69c3-47f2-8aa7-2d9025aba551/cu3n7q3ON0.json"
         )
 
         confetti_lottie_animation = load_lottieurl(confetti_lottie_url)
@@ -116,6 +121,10 @@ Beginne deine Antwort mit JA, wenn ich förderberechtigt bin.
             st_lottie(confetti_lottie_animation, height=300, width=300)
         else:
             st_lottie(sad_lottie_animation, height=300, width=300)
+
+        # show the legal text in an expander
+        with st.expander("Original Rechtstext:"):
+            st.write(legal_text)
 
 
 def main():
@@ -181,7 +190,7 @@ def main():
     if st.button("Antworten speichern"):
         if alle_beantwortet:
             save_responses(antworten)
-            st.success("Ihre Antworten wurden gespeichert.")
+
         else:
             st.error("Bitte beantworten Sie alle Fragen, bevor Sie fortfahren.")
 
