@@ -22,8 +22,9 @@ questions = {
 def save_responses(answers):
     prompt = f"""Du sollst meine Antworten für einen Fragebogen auswerten und bestimmen, ob ich förderungsberichtigt bin. 
 Falls ich nicht förderungsberichtigt bin, gebe mir eine Begründung in Stichpunkten.
-Beginne jeden Stichpunkt mit der Nummer der Frage, auf die du dich beziehst z.B. (1), (2).
-Bitte gebe NUR dein Ergebnis und die Begründung zurück und keinen weiteren Text.
+Bitte gebe NUR dein Ergebnis und - falls ich nicht förderberechtigt bin - die Begründung zurück und keinen weiteren Text. Z.B.: So:
+"Du bist leider nicht förderungsberechtigt, weil:
+* (1) Deine Antwort auf Frage 1 war Nein, was bedeutet dass <Begründung zu Frage 1>"
 
 Die Grundlage für die Bewertung ist folgender Text:
 ```Ab dem Jahr 2023 werden wesentliche Verpflichtungen aus dem Greening der Jahre
@@ -112,13 +113,9 @@ Beginne deine Antwort mit JA, wenn ich förderberechtigt bin.
         st.write("Dein Ergebnis:", result)
 
         if result.startswith("JA"):
-            left_co, cent_co, last_co = st.columns(3)
-            with cent_co:
-                st_lottie(confetti_lottie_animation, height=300, width=300)
+            st_lottie(confetti_lottie_animation, height=300, width=300)
         else:
-            left_co, cent_co, last_co = st.columns(3)
-            with cent_co:
-                st_lottie(sad_lottie_animation, height=300, width=300)
+            st_lottie(sad_lottie_animation, height=300, width=300)
 
 
 def main():
