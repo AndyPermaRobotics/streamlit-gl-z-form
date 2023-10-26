@@ -99,7 +99,9 @@ Hier sind meine Antworten für den Fragebogen:
         lottie_url = "https://lottie.host/0d7d01d8-6979-4ea7-a9a1-60403b616093/PUGJ85OnDa.json"  # URL der Konfetti-Animation
         lottie_animation = load_lottieurl(lottie_url)
 
-        st_lottie(lottie_animation, height=300, width=300)
+        left_co, cent_co, last_co = st.columns(3)
+        with cent_co:
+            st_lottie(lottie_animation, height=300, width=300)
 
         # DEBUG
         # result = get_completion(prompt)
