@@ -21,6 +21,7 @@ def save_responses(answers):
     prompt = f"""Du sollst meine Antworten für einen Fragebogen auswerten und bestimmen, ob ich förderungsberichtigt bin. 
 Falls ich nicht förderungsberichtigt bin, gebe mir eine Begründung in Stichpunkten.
 Beginne jeden Stichpunkt mit der Nummer der Frage, auf die du dich beziehst z.B. (1), (2).
+Bitte gebe NUR dein Ergebnis und die Begründung zurück und keinen weiteren Text.
 
 Die Grundlage für die Bewertung ist folgender Text:
 ```Ab dem Jahr 2023 werden wesentliche Verpflichtungen aus dem Greening der Jahre
