@@ -1,5 +1,7 @@
 import streamlit as st
+from streamlit_lottie import st_lottie
 
+from src.confetti import load_lottieurl
 from src.gpt import get_completion
 
 questions = {
@@ -91,13 +93,19 @@ Hier sind meine Antworten für den Fragebogen:
     # print(prompt)
 
     # show a loading indicator
-    with st.spinner("Warte auf Ergebnis der KI...\nDies kann einige Minuten dauern."):
+    with st.spinner("Warte auf Ergebnis der KI. Dies kann einige Minuten dauern..."):
         # get the result from the GPT-3 API
 
-        result = get_completion(prompt)
+        lottie_url = "https://assets5.lottiefiles.com/packages/lf20_z9wjr0wa.json"  # URL der Konfetti-Animation
+        lottie_animation = load_lottieurl(lottie_url)
 
-        # show reesult in the streamlit app
-        st.write("Dein Ergebnis:", result)
+        st_lottie(lottie_animation, height=300, width=300)
+
+        # DEBUG
+        # result = get_completion(prompt)
+
+        # # show reesult in the streamlit app
+        # st.write("Dein Ergebnis:", result)
 
 
 def main():
