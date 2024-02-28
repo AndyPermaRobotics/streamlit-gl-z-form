@@ -4,30 +4,29 @@ import time
 from typing import Dict
 
 import openai
+import streamlit as st
 
-openai.api_key  = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 def get_current_date():
     """Get the current date"""
-    
-    obj = {
-        "current_date": time.strftime("%Y-%m-%d")
-    }
-    
+
+    obj = {"current_date": time.strftime("%Y-%m-%d")}
+
     return json.dumps(obj)
 
 
-def get_completion(prompt, model="gpt-3.5-turbo-16k", temperature=0) -> str: 
+def get_completion(prompt, model="gpt-3.5-turbo-16k", temperature=0) -> str:
     messages = [{"role": "user", "content": prompt}]
-    
+
     for i in range(3):
         try:
             response = openai.ChatCompletion.create(
                 model=model,
                 messages=messages,
-                temperature=temperature, 
-
-                #Step 1 - provide functions metadata
+                temperature=temperature,
+                # Step 1 - provide functions metadata
                 functions=[
                     # {
                     #     "name": "get_current_weather",
@@ -40,7 +39,7 @@ def get_completion(prompt, model="gpt-3.5-turbo-16k", temperature=0) -> str:
                     #                 "description": "Die Stadt, für die das Wetter abgefragt werden soll",
                     #             },
                     #             "unit": {
-                    #                 "type": "string", 
+                    #                 "type": "string",
                     #                 "enum": ["celsius", "fahrenheit"]
                     #             },
                     #         },
@@ -52,8 +51,8 @@ def get_completion(prompt, model="gpt-3.5-turbo-16k", temperature=0) -> str:
                         "description": "Kann das aktuelle Datum zurückgeben",
                         "parameters": {
                             "type": "object",
-                            "properties": {}, # no parameters needed
-                        }, 
+                            "properties": {},  # no parameters needed
+                        },
                     },
                     # {
                     #     "name": "execute_python",
@@ -67,7 +66,7 @@ def get_completion(prompt, model="gpt-3.5-turbo-16k", temperature=0) -> str:
                     #             },
                     #         },
                     #         "required": ["code"],
-                    #     }, 
+                    #     },
                     # }
                 ],
                 function_call="auto",
@@ -85,10 +84,9 @@ def get_completion(prompt, model="gpt-3.5-turbo-16k", temperature=0) -> str:
                     print(f"Calling function: {function_name}")
                     print(f"Function parameters: {json.dumps(message)}")
 
-                    arguments = json.loads(message["function_call"]["arguments"])    
+                    arguments = json.loads(message["function_call"]["arguments"])
 
                     return_message = ""
-
 
                     print(f"{arguments=}")
 
@@ -105,7 +103,7 @@ def get_completion(prompt, model="gpt-3.5-turbo-16k", temperature=0) -> str:
                             function_response = eval(code)
                         else:
                             raise Exception(f"Code is not a string: {code}")
-                    
+
                     else:
                         raise Exception(f"Unknown function: {function_name}")
 
@@ -125,20 +123,22 @@ def get_completion(prompt, model="gpt-3.5-turbo-16k", temperature=0) -> str:
 
                     if isinstance(second_response, Dict):
                         content = second_response["choices"][0]["message"]["content"]
-                        
-                        if(len(return_message) > 0):
-                            return return_message + "\n\n" +  content
+
+                        if len(return_message) > 0:
+                            return return_message + "\n\n" + content
                         else:
                             return content
 
                 else:
-                    #if no function call is needed, return the message content
+                    # if no function call is needed, return the message content
                     return message["content"]
-            
-        except openai.APIError:
-            print(f"API Error occurred, retrying ({i+1}/3)...")
+
+        except openai.APIError as e:
+            print(f"API Error '{e}' occurred, retrying ({i+1}/3)...")
+            st.error(e)
             time.sleep(1)
         except Exception as e:
-            print(f"Error occurred: {e}. Retrying ({i+1}/3)...")
+            print(f"Error occurred: '{e}'. Retrying ({i+1}/3)...")
+            st.error(e)
             time.sleep(3)
     raise Exception("Failed to get response from OpenAI after 3 retries")
