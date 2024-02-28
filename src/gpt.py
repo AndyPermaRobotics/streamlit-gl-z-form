@@ -17,7 +17,7 @@ def get_current_date():
     return json.dumps(obj)
 
 
-def get_completion(prompt, model="gpt-3.5-turbo-16k", temperature=0) -> str:
+def get_completion(prompt, model="gpt-3.5-turbo-1106", temperature=0) -> str:
     messages = [{"role": "user", "content": prompt}]
 
     for i in range(3):
@@ -142,3 +142,11 @@ def get_completion(prompt, model="gpt-3.5-turbo-16k", temperature=0) -> str:
             st.error(e)
             time.sleep(3)
     raise Exception("Failed to get response from OpenAI after 3 retries")
+
+
+if __name__ == "__main__":
+
+    # Example usage
+    prompt = "wie alt bist du?"
+    response = get_completion(prompt)
+    print(response)
